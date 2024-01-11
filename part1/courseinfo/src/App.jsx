@@ -1,51 +1,56 @@
-const Header = (props) =>{
-  return (
-    <h1>
-      {props.course}
-    </h1>
-  )
-}
+const Header = (props) => {
+  console.log(props)
+  return <h1>{props.course}</h1>;
+};
 
-const Content = (props) => {  
-  return(
+const Content = (props) => {
+  return (
     <div>
-      <Part nombre ={props.part1} number ={props.exercises1} />
-      <Part nombre ={props.part2} number ={props.exercises2} />
-      <Part nombre ={props.part3} number ={props.exercises3} />
+      <Part nombre={props.name} number={props.exercises} />
     </div>
-  )
-}
+  );
+};
 
-const Total = ({total}) => {
+const Total = ({ total }) => {
   return (
-   <div>
-    <p>Number of exercises {total}</p>
-   </div>
-  )
-}
+    <div>
+      <p>Number of exercises {total}</p>
+    </div>
+  );
+};
 
-const Part = ({nombre, number}) => {
-  return(
-    <p>{nombre} {number}</p>
-  )
-}
-
+const Part = ({ nombre, number }) => {
+  return (
+    <p>
+      {nombre} {number}
+    </p>
+  );
+};
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
   return (
-    <div> 
-      <Header course = {course}/>
-      <Content part1 = {part1} exercises1 = {exercises1} part2 = {part2} exercises2 = {exercises2} part3 = {part3} exercises3 = {exercises3}/>
-      <Total total = {exercises1 + exercises2 + exercises3}/>
+    <div>
+      <Header course={course} />
+      <Content name = {part1.name} exercises = {part1.exercises}/>
+      <Content name = {part2.name} exercises = {part2.exercises}/>
+      <Content name = {part3.name} exercises = {part3.exercises}/>
+      <Total total={part1.exercises + part2.exercises + part3.exercises} />
+      <p>Soy un cambio</p>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
