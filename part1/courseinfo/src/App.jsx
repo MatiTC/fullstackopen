@@ -3,7 +3,7 @@ import Header from "./componets/Header";
 import Total from "./componets/Total";
 
 const Content = (props) => {
-  console.log("Propiedades:",props)
+  console.log("Propiedades:", props);
   return (
     <div>
       <Part nombre={props.parts[0].name} number={props.parts[0].exercises} />
@@ -42,7 +42,7 @@ const App = () => {
     <div>
       <Header course={course.name} />
       <Content parts={course.parts} />
-      <Total total={course.parts}/>
+      <Total total={course.parts} />
     </div>
   );
 };
