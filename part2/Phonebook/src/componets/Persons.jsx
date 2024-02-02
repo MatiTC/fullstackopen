@@ -24,10 +24,10 @@ const Persons = ({ persons, search, setPersons }) => {
     <div>
       {filterPersons.map((person, index) => (
         <div key={index}>
-          {person.name} {person.number}{' '}
+          {person.name}-{person.number}{' '}
           <button onClick={() => toggleImportanceOf(person.id)}>
             {' '}
-            delete: {person.id}{' '}
+            delete:{person.id}{' '}
           </button>
         </div>
       ))}

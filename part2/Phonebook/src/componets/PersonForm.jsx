@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import personService from '../services/persons';
 
-const PersonForm = ({ persons, setPersons }) => {
+
+const PersonForm = ({ persons, setPersons, setErrorMessage, setExitoMessage }) => {
   // console.log(persons);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log('button clicked', e.target);
@@ -36,6 +36,12 @@ const PersonForm = ({ persons, setPersons }) => {
           })
           .catch((error) => {
             console.error('Error al modificar los datos', error);
+            setErrorMessage(`La información de ${personObject.name} ya fue eliminada del servidor. `) 
+            setTimeout(()=>{
+              setErrorMessage(null)
+            },2000)
+            setNewName('');
+            setNewNumber('');
           });
       } else {
         console.log('No se guarda, se canceló la modificación');
@@ -48,6 +54,10 @@ const PersonForm = ({ persons, setPersons }) => {
         .then((response) => {
           console.log(response);
           setPersons(persons.concat(response.data));
+          setExitoMessage(`Se agrego correctamente al usuario ${response.data.name}`) 
+          setTimeout(()=>{
+            setExitoMessage(null)
+          },2000)
           setNewName('');
           setNewNumber('');
         })
