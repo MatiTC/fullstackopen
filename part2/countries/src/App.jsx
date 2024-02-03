@@ -6,12 +6,10 @@ import Countries from './componets/Countries';
 function App() {
   const [countris, setCountris] = useState([]);
   const [searchCountries, setSearchCountris] = useState('');
-
   const handleCountrisChange = (e) => {
     console.log(e.target.value);
     setSearchCountris(e.target.value);
   };
-
   useEffect(() => {
     console.log('Ejecutando el useEffect');
     // Verificar que no está vacío antes de realizar la solicitud. trim elimina los espacios en blanco de la cadena
@@ -32,7 +30,6 @@ function App() {
       setCountris([]);
     }
   }, [searchCountries]);
-
   return (
     <>
       <div>

@@ -10,14 +10,11 @@ const Countries = ({ countris }) => {
     </div>
   );
 };
-
 const Country = ({ country }) => {
   const [show, setShow] = useState(false);
-
   const handleshow = () => {
     setShow(!show);
   };
-
   return (
     <div>
       {country.name.common}
