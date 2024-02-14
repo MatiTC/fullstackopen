@@ -24,7 +24,7 @@ const App = () => {
         setPersons(response.data);
       })
       .catch((error) => {
-        console.error('Error al obtener los datos', error);
+        console.log('Error al obtener los datos', error);
       });
   }, []); // Este parámetro [] asegura que el useEffect se ejecute solo una vez
 
