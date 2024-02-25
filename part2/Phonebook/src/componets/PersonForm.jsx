@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import personService from '../services/persons';
 
-
-const PersonForm = ({ persons, setPersons, setErrorMessage, setExitoMessage }) => {
+const PersonForm = ({
+  persons,
+  setPersons,
+  setErrorMessage,
+  setExitoMessage,
+}) => {
   // console.log(persons);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
@@ -13,11 +17,10 @@ const PersonForm = ({ persons, setPersons, setErrorMessage, setExitoMessage }) =
       name: newName,
       number: newNumber,
     };
-
     // Verificador si el nombre ua existe. some: verifica si ya existe un nombre similar en la lista
 
     const existingPerson = persons.find((person) => person.name === newName);
-    console.log(existingPerson)
+    console.log(existingPerson);
     if (existingPerson) {
       const id = existingPerson.id;
       console.log(id);
@@ -36,10 +39,12 @@ const PersonForm = ({ persons, setPersons, setErrorMessage, setExitoMessage }) =
           })
           .catch((error) => {
             console.error('Error al modificar los datos', error);
-            setErrorMessage(`La información de ${personObject.name} ya fue eliminada del servidor. `) 
-            setTimeout(()=>{
-              setErrorMessage(null)
-            },2000)
+            setErrorMessage(
+              `La información de ${personObject.name} ya fue eliminada del servidor. `
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 2000);
             setNewName('');
             setNewNumber('');
           });
@@ -54,15 +59,27 @@ const PersonForm = ({ persons, setPersons, setErrorMessage, setExitoMessage }) =
         .then((response) => {
           console.log(response);
           setPersons(persons.concat(response.data));
-          setExitoMessage(`Se agrego correctamente al usuario ${response.data.name}`) 
-          setTimeout(()=>{
-            setExitoMessage(null)
-          },2000)
+          setExitoMessage(
+            `Se agrego correctamente al usuario ${response.data.name}`
+          );
+          setTimeout(() => {
+            setExitoMessage(null);
+          }, 2000);
           setNewName('');
           setNewNumber('');
         })
         .catch((error) => {
-          console.log(error);
+          console.log("Error:", error); // Imprimir el objeto error completo para ver su estructura
+          if (error.response && error.response.data && error.response.data.error) {
+            console.log("Error message from server:", error.response.data.error);
+            setErrorMessage(error.response.data.error);
+          } else {
+            console.log("Unexpected error format:", error);
+            setErrorMessage("An unexpected error occurred.");
+          }
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 2000);
         });
     }
 
