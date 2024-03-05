@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Matias en busca de un trabajo",
+    "author": "Matias",
+    "url": "wwww.matias.com",
+    "likes": "7"
+}
