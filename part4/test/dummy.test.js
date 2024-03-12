@@ -88,4 +88,22 @@ describe('favoriteBlog', () => {
     };
     expect(result).toEqual(expectativaBlog);
   });
+
+  test('maxAutor', () => {
+    const result = listHelper.mostBlogs(blogs);
+    const expectativaBlog = {
+      author: 'Robert C. Martin',
+      blogs: 3,
+    };
+    expect(result).toEqual(expectativaBlog);
+  });
+
+  test('maxAutorByLikes', () => {
+    const result = listHelper.mustLikes(blogs);
+    const expectativaBlog = {
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    };
+    expect(result).toEqual(expectativaBlog);
+  });
 });
