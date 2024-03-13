@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "semi": ["error", "always"], //Requiere que los puntos y coma se coloquen al final de cada declaración.
+    "object-curly-spacing": ["error", "always"], //Especifica si se deben o no agregar espacios dentro de llaves en objetos.
+    "array-bracket-spacing": ["error", "always"], //Especifica si se deben o no agregar espacios dentro de los arrays
+    "eqeqeq": ["error", "smart"], //Requiere el uso estricto del operador de igualdad (===) y desalienta el uso de la comparación débil (==).
+    "quotes": ["error", "single"], //Se utiliza para definir el estilo de citado de las cadenas de texto.
+    "no-multiple-empty-lines": ["error", { "max": 1 }], //Se utiliza para controlar el número máximo de líneas en blanco consecutivas permitidas en tu código
+    "indent": ["error", 2], //Especifica que se debe utilizar una indentation de 2 espacios
+    //"no-console": 0 //Se utiliza para controlar si se permite o no el uso de la consola en tu código
+    "jest/no-identical-title": "off"
+  }
+}
+
+/*
+error: Indica que ESLint mostrará un error si la regla no se sigue.
+always: : Significa que ESLint siempre requerirá 
+*/
