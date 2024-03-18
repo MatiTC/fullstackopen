@@ -24,13 +24,13 @@ describe('testBlogs', () => {
       .expect('Content-Type', /application\/json/);
   });
 
-  test('hay 1 blogs', async () => {
+  test('hay 2 blogs', async () => {
     const response = await api.get('/api/blogs');
 
     expect(response.body).toHaveLength(2);
   });
   //exercise 4.8
-  test('1 blogs y formato json', async () => {
+  test('2 blogs y formato json', async () => {
     const response = await api
       .get('/api/blogs')
       .expect(200)
@@ -95,6 +95,25 @@ describe('testBlogs', () => {
   });
 });
 
-afterAll(() => {
-  mongoose.connection.close();
+describe('exercise 4.13', () => {
+  test('delete exitoso con un status 204 y id valido', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const id = blogsAtStart[0].id;
+
+    await api.delete(`/api/blogs/${id}`).expect(204);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1);
+
+    const contents = blogsAtEnd.map((r) => r.id);
+    expect(contents).not.toContain(id.id);
+  });
+  test('delete no se encuentra la id error 404', async () => {
+    const nonExistentId = 1314141;
+    await api.delete(`/api/blogs/${nonExistentId}`).expect(404);
+  });
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
 });

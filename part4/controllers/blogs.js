@@ -4,13 +4,12 @@ const Blog = require('../models/blog');
 
 info('mensaje de prueba');
 
-blogsRouter.get('/', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
-  });
+blogsRouter.get('/', async (request, response) => {
+  const blog = await Blog.find({});
+  response.json(blog);
 });
 
-blogsRouter.post('/', (req, res, next) => {
+blogsRouter.post('/', async (req, res) => {
   const body = req.body;
   if (!body.title || !body.url) {
     return res
@@ -24,12 +23,19 @@ blogsRouter.post('/', (req, res, next) => {
     url: body.url,
     likes: body.likes === undefined ? 0 : body.likes,
   });
-  blog
-    .save()
-    .then((savedBlog) => {
-      res.status(201).json(savedBlog);
-    })
-    .catch((error) => next(error));
+
+  const savedBlog = await blog.save();
+  res.status(201).json(savedBlog);
+});
+
+blogsRouter.delete('/:id', async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const deleteBlog = await Blog.findByIdAndDelete(id);
+  if (!deleteBlog) {
+    return res.status(404).json({ error: 'Blog no encontrado' });
+  }
+  res.status(204).json(deleteBlog);
 });
 
 module.exports = blogsRouter;
