@@ -84,6 +84,15 @@ describe('testBlogs', () => {
 
     expect(response.body.likes).toBe(0);
   });
+
+  test('exercise 4.12', async () => {
+    const newBlog = {
+      author: 'Exercises 4.12',
+    };
+    const response = await api.post('/api/blogs').send(newBlog);
+
+    expect(response.status).toBe(400);
+  });
 });
 
 afterAll(() => {

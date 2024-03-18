@@ -12,6 +12,11 @@ blogsRouter.get('/', (request, response) => {
 
 blogsRouter.post('/', (req, res, next) => {
   const body = req.body;
+  if (!body.title || !body.url) {
+    return res
+      .status(400)
+      .json({ error: 'faltan los datos de title and/or url' });
+  }
   info(body);
   const blog = new Blog({
     title: body.title,
