@@ -70,6 +70,20 @@ describe('testBlogs', () => {
     const contents = blogsAtEnd.map((r) => r.title);
     expect(contents).toContain('Blog de prueba 4.10');
   });
+
+  test('exercise 4,11', async () => {
+    const newBlogSinLikes = {
+      title: 'Blog sin likes',
+      author: 'Autor de prueba',
+      url: 'www.prueba.com',
+    };
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlogSinLikes)
+      .expect(201);
+
+    expect(response.body.likes).toBe(0);
+  });
 });
 
 afterAll(() => {
