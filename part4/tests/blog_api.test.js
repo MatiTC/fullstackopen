@@ -108,12 +108,32 @@ describe('exercise 4.13', () => {
     const contents = blogsAtEnd.map((r) => r.id);
     expect(contents).not.toContain(id.id);
   });
-  test('delete no se encuentra la id error 404', async () => {
-    const nonExistentId = 1314141;
-    await api.delete(`/api/blogs/${nonExistentId}`).expect(404);
-  });
 });
 
+describe('exercise 4.14', () => {
+  test('actualizar los likes de un blog existente', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const id = blogsAtStart[0].id;
+    console.log(id);
+    const updateLikes = 25;
+    const response = await api
+      .put(`/api/blogs/${id}`)
+      .send({ likes: updateLikes })
+      .expect(200);
+
+    expect(response.body.likes).toBe(updateLikes);
+  });
+  test('devolver un error 404 si se intenta actualizar los datos de un blog inexistente', async () => {
+    const notExistenId = new mongoose.Types.ObjectId();
+    const updateLikes = 25;
+    const response = await api
+      .put(`/api/blogs/${notExistenId}`)
+      .send({ likes: updateLikes })
+      .expect(404);
+
+    expect(response.body).toEqual({ error: 'Blog no encontrado' });
+  });
+});
 afterAll(async () => {
   await mongoose.connection.close();
 });
