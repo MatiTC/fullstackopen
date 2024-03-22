@@ -1,9 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXJzMiIsImlkIjoiNjVmYzZmNjJiZDBiZTRhNjE3NGZjNDkwIiwiaWF0IjoxNzExMTM5NjU0LCJleHAiOjE3MTExNDMyNTR9.SVNlNgGhiied2tdRArztvYkeWnMIQdbaSPU-1IfYFmg
 
 {
-    "title": "Matias en busca de un trabajo",
+    "title": "Matias en busca de un trabajo n°20",
     "author": "Matias",
     "url": "wwww.matias.com",
-    "likes": "7"
+    "likes": "7",
+    "userId" : "65fc6e95bd0be4a6174fc48c"
 }

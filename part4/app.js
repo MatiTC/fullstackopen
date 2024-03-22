@@ -1,11 +1,13 @@
-const config = require('./utils/config');
 const express = require('express');
 const app = express();
-const cors = require('cors');
 const blogsRouter = require('./controllers/blogs');
-const middleware = require('./utils/middleware');
+const config = require('./utils/config');
+const cors = require('cors');
 const logger = require('./utils/logger');
+const middleware = require('./utils/middleware');
 const mongoose = require('mongoose');
+const usersRouter = require('./controllers/users');
+const loginRouter = require('./controllers/login');
 require('express-async-errors');
 
 mongoose.set('strictQuery', false);
@@ -24,7 +26,9 @@ app.use(cors()); //Nos permite comunicación con el front
 app.use(express.json()); //nos permite acceder al res.body
 app.use(middleware.requestLogger); //info
 //<---Router--->
+app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
+app.use('/api/users', usersRouter);
 app.use(middleware.unknownEndpoint); //error
 app.use(middleware.errorHandler); //error de manejo
 
