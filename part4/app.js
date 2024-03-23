@@ -25,6 +25,8 @@ app.use(cors()); //Nos permite comunicación con el front
 // app.use(express.static('dist'))// permite mostrar contenido estático
 app.use(express.json()); //nos permite acceder al res.body
 app.use(middleware.requestLogger); //info
+//<---jsw--->
+app.use(middleware.tokenExtractor);
 //<---Router--->
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);

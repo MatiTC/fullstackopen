@@ -8,8 +8,9 @@ const requestLogger = (request, response, next) => {
   next();
 };
 
-const unknownEndpoint = (request, response) => {
+const unknownEndpoint = (request, response, next) => {
   response.status(404).send({ error: 'unknown endpoint' });
+  next();
 };
 
 const errorHandler = (error, request, response, next) => {
@@ -26,12 +27,22 @@ const errorHandler = (error, request, response, next) => {
       error: 'token expired',
     });
   }
-
   next(error);
 };
 
+const tokenExtractor = (request, response, next) => {
+  // Encarga de obtener el token de la petición HTTP
+  const authorization = request.get('authorization');
+  // Si hay un token en el encabezado de autorización, lo extrae y lo adjunta a la solicitud
+  if (authorization && authorization.startsWith('Bearer ')) {
+    request.token = authorization.replace('Bearer ', '');
+    console.log('Token extraído:', request.token);
+  }
+  next();
+};
 module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
+  tokenExtractor,
 };
