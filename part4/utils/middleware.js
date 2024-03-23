@@ -36,7 +36,6 @@ const tokenExtractor = (request, response, next) => {
   // Si hay un token en el encabezado de autorización, lo extrae y lo adjunta a la solicitud
   if (authorization && authorization.startsWith('Bearer ')) {
     request.token = authorization.replace('Bearer ', '');
-    console.log('Token extraído:', request.token);
   }
   next();
 };

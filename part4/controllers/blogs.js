@@ -41,13 +41,36 @@ blogsRouter.post('/', async (req, res) => {
 });
 
 blogsRouter.delete('/:id', async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  const deleteBlog = await Blog.findByIdAndDelete(id);
+  const idBlog = req.params.id;
+
+  // verificamos si se ´proporciona un token
+  if (!req.token) {
+    return res.status(401).json({ error: 'Token no proporcionado' });
+  }
+  // si se promociona un token lo verificamos y validamos
+  const decodedToken = jwt.verify(req.token, process.env.SECRET);
+  // verificamos si el token es un token valido
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: 'token invalid' });
+  }
+  // verificamos si el blog existe a partir de la id de la solicitud
+  const deleteBlog = await Blog.findById(idBlog);
   if (!deleteBlog) {
     return res.status(404).json({ error: 'Blog no encontrado' });
   }
-  res.status(204).json(deleteBlog);
+  /*
+    tenemos el ID del blog(idBlog) tenemos el ID del User(decodedToken.id) 
+    convertir el ID del usuario del blog a una cadena para compararlo con el ID del usuario del token
+    comparamos, si no son iguales o si 
+  */
+  if (deleteBlog.user.toString() !== decodedToken.id) {
+    return res
+      .status(403)
+      .json({ error: 'No tienes permiso para eliminar este blog' });
+  }
+  // si todo esta bien procedemos a eliminar el blog
+  await Blog.findByIdAndDelete(idBlog);
+  res.status(204).json({ message: 'El blog se eliminó con éxito' });
 });
 
 blogsRouter.put('/:id', async (req, res) => {
