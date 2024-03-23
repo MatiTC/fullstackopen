@@ -1,4 +1,7 @@
 const logger = require('./logger');
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const { SECRET } = require('./config');
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method);
@@ -39,9 +42,33 @@ const tokenExtractor = (request, response, next) => {
   }
   next();
 };
+
+const userExtractor = async ( req, res, next) => {
+  // asumiendo que el token ya ha sido extraído por el middleware tokenExtractor
+  const token = req.token;
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: 'No hay token proporcionado. Acceso no autorizado.' });
+  }
+  // Suponiendo que tienes un modelo de usuario y puedes buscarlo en la base de datos
+  const decoded = await jwt.verify(token, SECRET);
+  const user = await User.findById(decoded.id);
+  if (!user) {
+    return res
+      .status(401)
+      .json({ message: 'Usuario no encontrado. Acceso no autorizado.' });
+  }
+  // Adjunta el usuario encontrado al objeto de solicitud
+  req.user = user;
+  next();
+};
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
+  userExtractor,
 };

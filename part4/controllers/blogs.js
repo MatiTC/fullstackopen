@@ -2,7 +2,6 @@
 const { info } = require('../utils/logger');
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
-const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 info('mensaje de prueba');
@@ -18,7 +17,7 @@ blogsRouter.post('/', async (req, res) => {
   if (!decodedToken.id) {
     return res.status(401).json({ error: 'token invalid' });
   }
-  const user = await User.findById(decodedToken.id);
+  const user = req.user;
 
   if (!body.title || !body.url) {
     return res
@@ -42,28 +41,22 @@ blogsRouter.post('/', async (req, res) => {
 
 blogsRouter.delete('/:id', async (req, res) => {
   const idBlog = req.params.id;
-
-  // verificamos si se ´proporciona un token
+  // verificamos si se proporciona un token
   if (!req.token) {
     return res.status(401).json({ error: 'Token no proporcionado' });
   }
-  // si se promociona un token lo verificamos y validamos
-  const decodedToken = jwt.verify(req.token, process.env.SECRET);
-  // verificamos si el token es un token valido
-  if (!decodedToken.id) {
-    return res.status(401).json({ error: 'token invalid' });
-  }
+  const user = req.user;
   // verificamos si el blog existe a partir de la id de la solicitud
   const deleteBlog = await Blog.findById(idBlog);
   if (!deleteBlog) {
     return res.status(404).json({ error: 'Blog no encontrado' });
   }
   /*
-    tenemos el ID del blog(idBlog) tenemos el ID del User(decodedToken.id) 
+    tenemos el ID del blog(idBlog) tenemos el ID del User(user.id) 
     convertir el ID del usuario del blog a una cadena para compararlo con el ID del usuario del token
     comparamos, si no son iguales o si 
   */
-  if (deleteBlog.user.toString() !== decodedToken.id) {
+  if (deleteBlog.user.toString() !== user.id) {
     return res
       .status(403)
       .json({ error: 'No tienes permiso para eliminar este blog' });

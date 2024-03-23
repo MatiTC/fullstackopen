@@ -29,7 +29,7 @@ app.use(middleware.requestLogger); //info
 app.use(middleware.tokenExtractor);
 //<---Router--->
 app.use('/api/login', loginRouter);
-app.use('/api/blogs', blogsRouter);
+app.use('/api/blogs', middleware.userExtractor, blogsRouter);
 app.use('/api/users', usersRouter);
 app.use(middleware.unknownEndpoint); //error
 app.use(middleware.errorHandler); //error de manejo

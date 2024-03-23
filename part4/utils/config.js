@@ -7,7 +7,9 @@ const MONGODB_URL =
     ? process.env.TEST_MONGODB_URI
     : process.env.MONGODB_URL;
 
+const SECRET = process.env.SECRET;
 module.exports = {
   MONGODB_URL,
   PORT,
+  SECRET,
 };
