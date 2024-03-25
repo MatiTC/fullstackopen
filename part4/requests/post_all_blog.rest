@@ -1,11 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXJzMiIsImlkIjoiNjVmYzZmNjJiZDBiZTRhNjE3NGZjNDkwIiwiaWF0IjoxNzExMTU2ODQyLCJleHAiOjE3MTExNjA0NDJ9.BEsVL663t8dnTcUI6fuoYl0A00OTvMeqy6CRQUuYtY0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXJzMSIsImlkIjoiNjVmYzZlOTViZDBiZTRhNjE3NGZjNDhjIiwiaWF0IjoxNzExMzIxMjY2LCJleHAiOjE3MTEzMjQ4NjZ9.A9nuiAuY_1OUTbC_kPgJGtBudpagvIkYITDYCplDqnw
 
 {
-    "title": "Matias en busca de un trabajo n°28",
+    "title": "Matias en busca de un trabajo n°30",
     "author": "Matias",
     "url": "wwww.matias.com",
-    "likes": "7",
-    "userId" : "65fc6e95bd0be4a6174fc48c"
+    "likes": "7"
 }

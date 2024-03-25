@@ -2,22 +2,34 @@
 const { info } = require('../utils/logger');
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const { SECRET } = require('../utils/config');
 
 info('mensaje de prueba');
 
 blogsRouter.get('/', async (request, response) => {
+  const decodedToken = jwt.verify(request.token, SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' });
+  }
   const blog = await Blog.find({}).populate('user');
-  response.json(blog);
+  response.status(200).json(blog);
 });
 
 blogsRouter.post('/', async (req, res) => {
   const body = req.body;
-  const decodedToken = jwt.verify(req.token, process.env.SECRET);
+  const decodedToken = jwt.verify(req.token, SECRET);
   if (!decodedToken.id) {
     return res.status(401).json({ error: 'token invalid' });
   }
-  const user = req.user;
+  const userIdDecodedToken = decodedToken.id;
+  const user = await User.findById(userIdDecodedToken);
+  if (!user) {
+    return res
+      .status(401)
+      .json({ error: 'Usuario no encontrado. Acceso no autorizado.' });
+  }
 
   if (!body.title || !body.url) {
     return res
@@ -30,7 +42,7 @@ blogsRouter.post('/', async (req, res) => {
     author: body.author,
     url: body.url,
     likes: body.likes === undefined ? 0 : body.likes,
-    user: user.id,
+    user: userIdDecodedToken,
   });
 
   const savedBlog = await blog.save();
@@ -40,33 +52,38 @@ blogsRouter.post('/', async (req, res) => {
 });
 
 blogsRouter.delete('/:id', async (req, res) => {
-  const idBlog = req.params.id;
-  // verificamos si se proporciona un token
-  if (!req.token) {
-    return res.status(401).json({ error: 'Token no proporcionado' });
+  const decodedToken = jwt.verify(req.token, SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' });
   }
-  const user = req.user;
-  // verificamos si el blog existe a partir de la id de la solicitud
+  const userIdDecodedToken = decodedToken.id;
+  const user = await User.findById(userIdDecodedToken);
+  if (!user) {
+    return res
+      .status(401)
+      .json({ error: 'Usuario no encontrado. Acceso no autorizado.' });
+  }
+
+  const idBlog = req.params.id;
   const deleteBlog = await Blog.findById(idBlog);
   if (!deleteBlog) {
     return res.status(404).json({ error: 'Blog no encontrado' });
   }
-  /*
-    tenemos el ID del blog(idBlog) tenemos el ID del User(user.id) 
-    convertir el ID del usuario del blog a una cadena para compararlo con el ID del usuario del token
-    comparamos, si no son iguales o si 
-  */
-  if (deleteBlog.user.toString() !== user.id) {
-    return res
-      .status(403)
-      .json({ error: 'No tienes permiso para eliminar este blog' });
-  }
-  // si todo esta bien procedemos a eliminar el blog
+
   await Blog.findByIdAndDelete(idBlog);
   res.status(204).json({ message: 'El blog se eliminó con éxito' });
 });
 
 blogsRouter.put('/:id', async (req, res) => {
+  if (!req.token) {
+    return res
+      .status(401)
+      .json({ error: 'Token no proporcionado. Acceso no autorizado' });
+  }
+  const decodedToken = jwt.verify(req.token, SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' });
+  }
   const id = req.params.id;
   const blogExiste = await Blog.findById(id);
   if (!blogExiste) {

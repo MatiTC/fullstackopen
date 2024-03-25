@@ -1,5 +1,7 @@
 const Blog = require('../models/blog');
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const { SECRET } = require('../utils/config');
 
 const initialBlogs = [
   {
@@ -26,9 +28,26 @@ const usersInDb = async () => {
   const users = await User.find({});
   return users.map((user) => user.toJSON());
 };
+
+// Función para generar un token JWT para pruebas
+const generateTestToken = async (id, username) => {
+  // Simplemente firmamos un token con algún secreto (puede ser cualquier cosa para pruebas)
+  const payload = { id, username };
+  const tokenTest = jwt.sign(payload, SECRET, {
+    expiresIn: '1h',
+  });
+  return tokenTest;
+};
+const getUserIdFromTestToken = (token) => {
+  const decoded = jwt.verify(token, SECRET);
+  return decoded.id;
+};
+
 module.exports = {
   initialBlogs,
   nonExistingId,
   blogsInDb,
   usersInDb,
+  generateTestToken,
+  getUserIdFromTestToken,
 };
