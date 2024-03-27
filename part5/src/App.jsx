@@ -6,23 +6,31 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); 
 
-  // useEffect(() => {
-  //   blogService.getAll().then((blogs) => setBlogs(blogs));
-  // }, []);
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser');
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+      blogService.getAll().then((blogs) => setBlogs(blogs));
+    }
+  }, []);
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    console.log('Login con los datos de:', username, password);
     try {
       const user = await loginService.login({ username, password });
+      window.localStorage.setItem('loggedUser', JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
       setPassword('');
       setUsername('');
+      const blogs = await blogService.getAll();
+      setBlogs(blogs);
     } catch (error) {
-      console.error('Error en el handleLoginSubmit:', error.message);
+      console.error('Error en el handleLoginSubmit:', error);
     }
   };
   // Manejar cambios en los campos del formulario
@@ -70,6 +78,7 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+        <p> {user.username} iniciando sesión en la aplicación</p>
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
         ))}
