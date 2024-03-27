@@ -7,6 +7,12 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [newBlog, setNewBlog] = useState({
+    title: '',
+    author: '',
+    url: '',
+    likes: '',
+  });
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
@@ -39,6 +45,22 @@ const App = () => {
       console.error('Error en el handleLoginSubmit:', error);
     }
   };
+  const handleNewBlogSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await blogService.create(newBlog);
+      console.log('Soy el nuevo blog', response)
+      setBlogs([... blogs, response])
+      setNewBlog({
+        title: '',
+        author: '',
+        url: '',
+        likes: '',
+      });
+    } catch (error) {
+      console.log('Este fue el error =>', error);
+    }
+  };
   // Manejar cambios en los campos del formulario
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -47,6 +69,13 @@ const App = () => {
     } else if (name === 'password') {
       setPassword(value);
     }
+  };
+  const handleChangeNewBlog = (event) => {
+    const { name, value } = event.target;
+    setNewBlog({
+      ...newBlog,
+      [name]: value,
+    });
   };
 
   if (user === null) {
@@ -82,21 +111,69 @@ const App = () => {
     );
   } else {
     return (
-      <div>
-        <h2>blogs</h2>
-        <p>
-          {' '}
-          {user.username} iniciando sesión en la aplicación{' '}
-          <span>
+      <>
+        <div>
+          <h2>blogs</h2>
+          <p>
             {' '}
-            <button onClick={handleButtonLogout}>cerrar sesión</button>
-          </span>
-        </p>
+            {user.username} iniciando sesión en la aplicación{' '}
+            <span>
+              {' '}
+              <button onClick={handleButtonLogout}>cerrar sesión</button>
+            </span>
+          </p>
 
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
-      </div>
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
+        </div>
+        <div>
+          <h2>Crear un nuevo blogs</h2>
+          <form onSubmit={handleNewBlogSubmit}>
+            <div>
+              Titulo
+              <input
+                typeof="text"
+                value={newBlog.title}
+                placeholder="Titulo"
+                name="title"
+                onChange={handleChangeNewBlog}
+              ></input>
+            </div>
+            <div>
+              Autor
+              <input
+                typeof="text"
+                value={newBlog.author}
+                placeholder="Autor"
+                name="author"
+                onChange={handleChangeNewBlog}
+              ></input>
+            </div>
+            <div>
+              Url
+              <input
+                typeof="text"
+                value={newBlog.url}
+                placeholder="Url"
+                name="url"
+                onChange={handleChangeNewBlog}
+              ></input>
+            </div>
+            <div>
+              MeGusta
+              <input
+                typeof="text"
+                value={newBlog.likes}
+                placeholder="MeGusta"
+                name="likes"
+                onChange={handleChangeNewBlog}
+              ></input>
+            </div>
+            <button type="submit">Crear</button>
+          </form>
+        </div>
+      </>
     );
   }
 };
