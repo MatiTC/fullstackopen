@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
+import Notification from './components/Notification';
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
@@ -12,6 +13,10 @@ const App = () => {
     author: '',
     url: '',
     likes: '',
+  });
+  const [mensaje, setMensaje] = useState({
+    type: '',
+    msm: '',
   });
 
   useEffect(() => {
@@ -25,7 +30,6 @@ const App = () => {
   }, []);
 
   const handleButtonLogout = () => {
-    console.log('se presiono el botón para eliminar el localStorege');
     localStorage.removeItem('loggedUser');
     window.location.reload();
   };
@@ -41,24 +45,31 @@ const App = () => {
       setUsername('');
       const blogs = await blogService.getAll();
       setBlogs(blogs);
+      setMensaje({ type: 'success', msm: `Inicio sesión ${user.username}` });
+      setTimeout(() => {
+        setMensaje({ type: '', msm: `` });
+      }, 3000);
     } catch (error) {
-      console.error('Error en el handleLoginSubmit:', error);
+      setMensaje({ type: 'error', msm: `${error.response.data.error}` });
     }
   };
   const handleNewBlogSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await blogService.create(newBlog);
-      console.log('Soy el nuevo blog', response)
-      setBlogs([... blogs, response])
+      setBlogs([...blogs, response]);
       setNewBlog({
         title: '',
         author: '',
         url: '',
         likes: '',
       });
+      setMensaje({ type: 'success', msm: `Se agrego un nuevo blog con éxito by ${user.username}` });
+      setTimeout(() => {
+        setMensaje({ type: '', msm: `` });
+      }, 3000);
     } catch (error) {
-      console.log('Este fue el error =>', error);
+      setMensaje({ type: 'error', msm: `${error.response.data.error}` });
     }
   };
   // Manejar cambios en los campos del formulario
@@ -81,9 +92,10 @@ const App = () => {
   if (user === null) {
     return (
       <>
+      <h2>Log in to application</h2>
+       <Notification mensaje={mensaje}  setMensaje={setMensaje} />
         <form onSubmit={handleLoginSubmit}>
           <div>
-            <p>Login</p>
           </div>
           <div>
             Nombre
@@ -112,6 +124,10 @@ const App = () => {
   } else {
     return (
       <>
+        <div>
+          <h1>Notificaciones</h1>
+          <Notification mensaje={mensaje} setMensaje={setMensaje} />
+        </div>
         <div>
           <h2>blogs</h2>
           <p>
