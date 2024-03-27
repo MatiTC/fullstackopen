@@ -6,7 +6,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
@@ -17,6 +17,12 @@ const App = () => {
       blogService.getAll().then((blogs) => setBlogs(blogs));
     }
   }, []);
+
+  const handleButtonLogout = () => {
+    console.log('se presiono el botón para eliminar el localStorege');
+    localStorage.removeItem('loggedUser');
+    window.location.reload();
+  };
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -78,7 +84,15 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
-        <p> {user.username} iniciando sesión en la aplicación</p>
+        <p>
+          {' '}
+          {user.username} iniciando sesión en la aplicación{' '}
+          <span>
+            {' '}
+            <button onClick={handleButtonLogout}>cerrar sesión</button>
+          </span>
+        </p>
+
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
         ))}
