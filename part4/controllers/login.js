@@ -6,6 +6,7 @@ const User = require('../models/user');
 const { SECRET } = require('../utils/config');
 
 loginRouter.post('/', async (request, response) => {
+  console.log('viene algo del front');
   const { username, password } = request.body;
 
   const user = await User.findOne({ username });
