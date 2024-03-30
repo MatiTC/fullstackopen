@@ -110,22 +110,20 @@ const App = () => {
         </>
       ) : (
         <>
+          <h2>Blogs</h2>
           <Notification mensaje={mensaje} setMensaje={setMensaje} />
           <div>
-            <h2>Blogs</h2>
             <p>
               {user.username} iniciando sesión en la aplicación{' '}
               <button onClick={handleButtonLogout}>cerrar sesión</button>
             </p>
-            <div>
-              <Taggable buttonLabel="newBlog">
-                <FormularioNewBlog
-                  handleNewBlogSubmit={handleNewBlogSubmit}
-                  handleChangeNewBlog={handleChangeNewBlog}
-                  newBlog={newBlog}
-                />
-              </Taggable>
-            </div>
+            <Taggable buttonLabel="create new blog">
+              <FormularioNewBlog
+                handleNewBlogSubmit={handleNewBlogSubmit}
+                handleChangeNewBlog={handleChangeNewBlog}
+                newBlog={newBlog}
+              />
+            </Taggable>
           </div>
           <div>
             {blogs.map((blog, index) => (
