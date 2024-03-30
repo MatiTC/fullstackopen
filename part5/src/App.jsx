@@ -3,6 +3,10 @@ import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import Notification from './components/Notification';
+import FormularioLogin from './components/FormularioLogin';
+import FormularioNewBlog from './components/FormularioNewBlog';
+import Taggable from './components/Togglable';
+
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
@@ -64,7 +68,10 @@ const App = () => {
         url: '',
         likes: '',
       });
-      setMensaje({ type: 'success', msm: `Se agrego un nuevo blog con éxito by ${user.username}` });
+      setMensaje({
+        type: 'success',
+        msm: `Se agrego un nuevo blog con éxito by ${user.username}`,
+      });
       setTimeout(() => {
         setMensaje({ type: '', msm: `` });
       }, 3000);
@@ -88,110 +95,47 @@ const App = () => {
       [name]: value,
     });
   };
-
-  if (user === null) {
-    return (
-      <>
-      <h2>Log in to application</h2>
-       <Notification mensaje={mensaje}  setMensaje={setMensaje} />
-        <form onSubmit={handleLoginSubmit}>
-          <div>
-          </div>
-          <div>
-            Nombre
-            <input
-              typeof="text"
-              value={username}
-              placeholder="nombre"
-              name="username"
-              onChange={handleChange}
-            ></input>
-          </div>
-          <div>
-            Contraseña
-            <input
-              typeof="password"
-              placeholder="contraseña"
-              value={password}
-              name="password"
-              onChange={handleChange}
-            ></input>
-          </div>
-          <button type="submit">Enviar</button>
-        </form>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div>
-          <h1>Notificaciones</h1>
+  return (
+    <>
+      {user === null ? (
+        <>
+          <h2>Log in to application</h2>
           <Notification mensaje={mensaje} setMensaje={setMensaje} />
-        </div>
-        <div>
-          <h2>blogs</h2>
-          <p>
-            {' '}
-            {user.username} iniciando sesión en la aplicación{' '}
-            <span>
-              {' '}
+          <FormularioLogin
+            handleLoginSubmit={handleLoginSubmit}
+            handleChange={handleChange}
+            username={username}
+            password={password}
+          />
+        </>
+      ) : (
+        <>
+          <Notification mensaje={mensaje} setMensaje={setMensaje} />
+          <div>
+            <h2>Blogs</h2>
+            <p>
+              {user.username} iniciando sesión en la aplicación{' '}
               <button onClick={handleButtonLogout}>cerrar sesión</button>
-            </span>
-          </p>
-
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
-        </div>
-        <div>
-          <h2>Crear un nuevo blogs</h2>
-          <form onSubmit={handleNewBlogSubmit}>
+            </p>
             <div>
-              Titulo
-              <input
-                typeof="text"
-                value={newBlog.title}
-                placeholder="Titulo"
-                name="title"
-                onChange={handleChangeNewBlog}
-              ></input>
+              <Taggable buttonLabel="newBlog">
+                <FormularioNewBlog
+                  handleNewBlogSubmit={handleNewBlogSubmit}
+                  handleChangeNewBlog={handleChangeNewBlog}
+                  newBlog={newBlog}
+                />
+              </Taggable>
             </div>
-            <div>
-              Autor
-              <input
-                typeof="text"
-                value={newBlog.author}
-                placeholder="Autor"
-                name="author"
-                onChange={handleChangeNewBlog}
-              ></input>
-            </div>
-            <div>
-              Url
-              <input
-                typeof="text"
-                value={newBlog.url}
-                placeholder="Url"
-                name="url"
-                onChange={handleChangeNewBlog}
-              ></input>
-            </div>
-            <div>
-              MeGusta
-              <input
-                typeof="text"
-                value={newBlog.likes}
-                placeholder="MeGusta"
-                name="likes"
-                onChange={handleChangeNewBlog}
-              ></input>
-            </div>
-            <button type="submit">Crear</button>
-          </form>
-        </div>
-      </>
-    );
-  }
+          </div>
+          <div>
+            {blogs.map((blog, index) => (
+              <Blog key={blog.id} blog={blog} />
+            ))}
+          </div>
+        </>
+      )}
+    </>
+  );
 };
 
 export default App;
