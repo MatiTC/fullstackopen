@@ -28,4 +28,15 @@ const getAll = async () => {
   }
 };
 
-export default { getAll, setToken, create };
+const updateLike = async (id, newObject) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  try {
+    const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+    return response.data;
+  } catch (error) {
+    console.error('Error desconocido', error);
+  }
+};
+export default { getAll, setToken, create, updateLike };
