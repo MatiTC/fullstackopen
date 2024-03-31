@@ -98,6 +98,15 @@ const App = () => {
       [name]: value,
     });
   };
+  const handleDeleteBlog = async (blogId) => {
+    try {
+      await blogService.deleteID(blogId);
+      setBlogs(blogs.filter((blog) => blog.id !== blogId));
+    } catch (error) {
+      console.error('Error deleting blog:', error);
+    }
+  };
+
   return (
     <>
       {user === null ? (
@@ -120,7 +129,7 @@ const App = () => {
               {user.username} iniciando sesión en la aplicación{' '}
               <button onClick={handleButtonLogout}>cerrar sesión</button>
             </p>
-            <Taggable buttonLabel="create new blog">
+            <Taggable buttonLabel="create new blog" buttonLabelDos="cancelar">
               <FormularioNewBlog
                 handleNewBlogSubmit={handleNewBlogSubmit}
                 handleChangeNewBlog={handleChangeNewBlog}
@@ -130,7 +139,7 @@ const App = () => {
           </div>
           <div>
             {blogs.map((blog, index) => (
-              <Blog key={blog.id} blog={blog} />
+              <Blog key={blog.id} blog={blog} onDeleteBlog={handleDeleteBlog} />
             ))}
           </div>
         </>

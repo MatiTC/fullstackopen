@@ -39,4 +39,16 @@ const updateLike = async (id, newObject) => {
     console.error('Error desconocido', error);
   }
 };
-export default { getAll, setToken, create, updateLike };
+
+const deleteID = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  try {
+    const response = await axios.delete(`${baseUrl}/${id}`, config);
+    return response.data;
+  } catch (error) {
+    console.error('Error en la petición delete', error);
+  }
+}
+export default { getAll, setToken, create, updateLike, deleteID};

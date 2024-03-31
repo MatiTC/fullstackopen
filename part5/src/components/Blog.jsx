@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
-import '../components/style/blog.css';
-import Taggable from './Togglable';
 import ButtonLike from './ButtonLike';
+import React, { useState } from 'react';
+import Taggable from './Togglable';
+import '../components/style/blog.css';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, onDeleteBlog }) => {
   const [blogState, setBlogState] = useState(blog);
-  
+
   const handleUpdateBlog = (updatedBlog) => {
     setBlogState(updatedBlog);
   };
+
+  const handleDeleteClick = () => {
+    const isConfirmed = window.confirm(
+      '¿Estás seguro de que deseas eliminar esta publicación?'
+    );
+    if (isConfirmed) {
+      onDeleteBlog(blogState.id);
+    }
+  };
+
   return (
     <div className="blogStyle">
       <div>{blogState.title} </div>
-      <Taggable buttonLabel="Detalles">
+      <Taggable buttonLabel="Detalles" buttonLabelDos="Ocultar">
         <div>
           <p>Autor: {blogState.author}</p>
           <p>Url: {blogState.url}</p>
@@ -21,6 +31,9 @@ const Blog = ({ blog }) => {
             <ButtonLike blog={blogState} updateBlog={handleUpdateBlog} />
           </p>
           <p>{blogState.user.name}</p>
+        </div>
+        <div>
+          <button onClick={handleDeleteClick}>Eliminar</button>
         </div>
       </Taggable>
     </div>
