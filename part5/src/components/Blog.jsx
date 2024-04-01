@@ -1,6 +1,6 @@
 import ButtonLike from './ButtonLike';
 import React, { useState } from 'react';
-import Taggable from './Togglable';
+import Togglable from './Togglable';
 import '../components/style/blog.css';
 
 const Blog = ({ blog, onDeleteBlog }) => {
@@ -22,7 +22,7 @@ const Blog = ({ blog, onDeleteBlog }) => {
   return (
     <div className="blogStyle">
       <div>{blogState.title} </div>
-      <Taggable buttonLabel="Detalles" buttonLabelDos="Ocultar">
+      <Togglable buttonLabel="Detalles" buttonLabelDos="Ocultar">
         <div>
           <p>Autor: {blogState.author}</p>
           <p>Url: {blogState.url}</p>
@@ -35,7 +35,7 @@ const Blog = ({ blog, onDeleteBlog }) => {
         <div>
           <button onClick={handleDeleteClick}>Eliminar</button>
         </div>
-      </Taggable>
+      </Togglable>
     </div>
   );
 };

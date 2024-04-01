@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const FormularioLogin = ({
   handleLoginSubmit,
@@ -13,7 +14,7 @@ const FormularioLogin = ({
         <div>
           Nombre
           <input
-            typeof="text"
+            type="text"
             value={username}
             placeholder="nombre"
             name="username"
@@ -23,7 +24,7 @@ const FormularioLogin = ({
         <div>
           Contraseña
           <input
-            typeof="password"
+            type="password"
             placeholder="contraseña"
             value={password}
             name="password"
@@ -34,6 +35,13 @@ const FormularioLogin = ({
       </form>
     </>
   );
+};
+
+FormularioLogin.propTypes = {
+  handleLoginSubmit: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
 };
 
 export default FormularioLogin;

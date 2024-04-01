@@ -54,7 +54,7 @@ const App = () => {
       setBlogs(blogs);
       setMensaje({ type: 'success', msm: `Inicio sesión ${user.username}` });
       setTimeout(() => {
-        setMensaje({ type: '', msm: `` });
+        setMensaje({ type: '', msm: '' });
       }, 3000);
     } catch (error) {
       setMensaje({ type: 'error', msm: `${error.response.data.error}` });
@@ -76,7 +76,7 @@ const App = () => {
         msm: `Se agrego un nuevo blog con éxito by ${user.username}`,
       });
       setTimeout(() => {
-        setMensaje({ type: '', msm: `` });
+        setMensaje({ type: '', msm: '' });
       }, 3000);
     } catch (error) {
       setMensaje({ type: 'error', msm: `${error.response.data.error}` });

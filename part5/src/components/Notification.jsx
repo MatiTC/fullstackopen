@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './style/Notification.css';
 
-const Notification = ({ mensaje, setMensaje}) => {
+const Notification = ({ mensaje, setMensaje }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setMensaje({ type: '', msm: '' });

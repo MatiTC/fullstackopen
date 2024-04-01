@@ -50,5 +50,5 @@ const deleteID = async (id) => {
   } catch (error) {
     console.error('Error en la petición delete', error);
   }
-}
-export default { getAll, setToken, create, updateLike, deleteID};
+};
+export default { getAll, setToken, create, updateLike, deleteID };

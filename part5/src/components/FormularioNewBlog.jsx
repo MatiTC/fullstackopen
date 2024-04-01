@@ -12,7 +12,7 @@ const FormularioNewBlog = ({
         <div>
           Titulo
           <input
-            typeof="text"
+            type="text"
             value={newBlog.title}
             placeholder="Titulo"
             name="title"
@@ -22,7 +22,7 @@ const FormularioNewBlog = ({
         <div>
           Autor
           <input
-            typeof="text"
+            type="text"
             value={newBlog.author}
             placeholder="Autor"
             name="author"
@@ -32,7 +32,7 @@ const FormularioNewBlog = ({
         <div>
           Url
           <input
-            typeof="text"
+            type="text"
             value={newBlog.url}
             placeholder="Url"
             name="url"
@@ -42,7 +42,7 @@ const FormularioNewBlog = ({
         <div>
           MeGusta
           <input
-            typeof="text"
+            type="text"
             value={newBlog.likes}
             placeholder="MeGusta"
             name="likes"
