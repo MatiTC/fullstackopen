@@ -12,7 +12,7 @@ const Togglable = (props) => {
   };
 
   return (
-    <div>
+    <div className={props.className}>
       <div style={hideWhenVisible}>
         <button onClick={toggleVisibility}>{props.buttonLabel}</button>
       </div>
@@ -27,5 +27,6 @@ const Togglable = (props) => {
 Togglable.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
   buttonLabelDos: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
 };
 export default Togglable;

@@ -21,16 +21,16 @@ const Blog = ({ blog, onDeleteBlog }) => {
 
   return (
     <div className="blogStyle">
-      <div>{blogState.title} </div>
-      <Togglable buttonLabel="Detalles" buttonLabelDos="Ocultar">
+      <div className="blogTitle">{blogState.title} </div>
+      <div className="blogAuthor">{blogState.author}</div>
+      <Togglable className="togglableContent" buttonLabel="Detalles" buttonLabelDos="Ocultar">
         <div>
-          <p>Autor: {blogState.author}</p>
-          <p>Url: {blogState.url}</p>
-          <p>
+          <p className="blogUrl">Url: {blogState.url}</p>
+          <p className="blogLikes">
             Likes: {blogState.likes}{' '}
             <ButtonLike blog={blogState} updateBlog={handleUpdateBlog} />
           </p>
-          <p>{blogState.user.name}</p>
+          <p className="blogUser">{blogState.user.name}</p>
         </div>
         <div>
           <button onClick={handleDeleteClick}>Eliminar</button>
