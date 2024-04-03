@@ -8,7 +8,7 @@ const FormularioNewBlog = ({
   return (
     <>
       <h4>Crear un nuevo blogs</h4>
-      <form onSubmit={handleNewBlogSubmit}>
+      <form onSubmit={handleNewBlogSubmit} className="blogForm">
         <div>
           Titulo
           <input
