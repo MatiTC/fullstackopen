@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 require('express-async-errors');
+require('dotenv');
 
 mongoose.set('strictQuery', false);
 logger.info('Conexión al DB');
@@ -24,6 +25,11 @@ mongoose
 app.use(cors()); //Nos permite comunicación con el front
 // app.use(express.static('dist'))// permite mostrar contenido estático
 app.use(express.json()); //nos permite acceder al res.body
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing');
+  app.use('/api/testing', testingRouter);
+}
 app.use(middleware.requestLogger); //info
 //<---jsw--->
 app.use(middleware.tokenExtractor);
@@ -31,6 +37,7 @@ app.use(middleware.tokenExtractor);
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
 app.use('/api/users', usersRouter);
+
 app.use(middleware.unknownEndpoint); //error
 app.use(middleware.errorHandler); //error de manejo
 
