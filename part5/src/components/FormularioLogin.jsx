@@ -14,6 +14,7 @@ const FormularioLogin = ({
         <div>
           Nombre
           <input
+            id="username"
             type="text"
             value={username}
             placeholder="nombre"
@@ -24,6 +25,7 @@ const FormularioLogin = ({
         <div>
           Contraseña
           <input
+            id="password"
             type="password"
             placeholder="contraseña"
             value={password}
@@ -31,7 +33,9 @@ const FormularioLogin = ({
             onChange={handleChange}
           ></input>
         </div>
-        <button type="submit">Enviar</button>
+        <button id="login-button" type="submit">
+          Enviar
+        </button>
       </form>
     </>
   );
