@@ -64,11 +64,14 @@ blogsRouter.delete('/:id', async (req, res) => {
       .json({ error: 'Usuario no encontrado. Acceso no autorizado.' });
   }
   const idBlog = req.params.id;
-  const deleteBlog = await Blog.findById(idBlog);
-  if (!deleteBlog) {
+  const blogToDelete = await Blog.findById(idBlog);
+  if (!blogToDelete) {
     return res.status(404).json({ error: 'Blog no encontrado' });
   }
-
+  // Verificar si el usuario que solicita la eliminación es el creador del blog
+  if (blogToDelete.user.toString() !== userIdDecodedToken) {
+    return res.status(403).json({ error: 'No tienes permiso para eliminar este blog' });
+  }
   await Blog.findByIdAndDelete(idBlog);
   res.status(204).json({ message: 'El blog se eliminó con éxito' });
 });
