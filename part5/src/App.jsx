@@ -127,7 +127,7 @@ const App = () => {
           <div>
             <p>
               {user.username} iniciando sesión en la aplicación{' '}
-              <button onClick={handleButtonLogout}>cerrar sesión</button>
+              <button id='buttonCerrarS' onClick={handleButtonLogout}>cerrar sesión</button>
             </p>
             <Taggable buttonLabel="create new blog" buttonLabelDos="cancelar">
               <FormularioNewBlog

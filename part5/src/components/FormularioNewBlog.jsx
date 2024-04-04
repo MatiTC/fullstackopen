@@ -12,6 +12,7 @@ const FormularioNewBlog = ({
         <div>
           Titulo
           <input
+            id="title"
             type="text"
             value={newBlog.title}
             placeholder="Titulo"
@@ -22,6 +23,7 @@ const FormularioNewBlog = ({
         <div>
           Autor
           <input
+            id="author"
             type="text"
             value={newBlog.author}
             placeholder="Autor"
@@ -32,6 +34,7 @@ const FormularioNewBlog = ({
         <div>
           Url
           <input
+            id="url"
             type="text"
             value={newBlog.url}
             placeholder="Url"
@@ -42,6 +45,7 @@ const FormularioNewBlog = ({
         <div>
           MeGusta
           <input
+            id="likes"
             type="text"
             value={newBlog.likes}
             placeholder="MeGusta"
@@ -49,7 +53,7 @@ const FormularioNewBlog = ({
             onChange={handleChangeNewBlog}
           ></input>
         </div>
-        <button type="submit">Crear</button>
+        <button id='buttonNewBlog' type="submit">Crear</button>
       </form>
     </>
   );

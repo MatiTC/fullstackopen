@@ -11,7 +11,7 @@ const ButtonLike = ({ blog, updateBlog }) => {
       console.error('Error al enviar la solicitud PUT:', error);
     }
   };
-  return <button onClick={handleLike}>Like</button>;
+  return <button id='likeButton' onClick={handleLike}>Like</button>;
 };
 
 export default ButtonLike;

@@ -63,7 +63,6 @@ blogsRouter.delete('/:id', async (req, res) => {
       .status(401)
       .json({ error: 'Usuario no encontrado. Acceso no autorizado.' });
   }
-
   const idBlog = req.params.id;
   const deleteBlog = await Blog.findById(idBlog);
   if (!deleteBlog) {
