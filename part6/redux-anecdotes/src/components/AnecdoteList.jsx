@@ -1,14 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleVoteOf } from '../reducers/anecdoteReducer';
+import { useSelector } from 'react-redux';
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector((state) => state);
-  const dispatch = useDispatch();
-
-  const vote = (id) => {
-    console.log('vote', id);
-    dispatch(toggleVoteOf(id));
-  };
+  const anecdotes = useSelector((state) => {
+    const filter = state.filter.toLowerCase();
+    return state.anecdotes.filter((anecdote) =>
+      anecdote.content.toLowerCase().includes(filter)
+    );
+  });
 
   return (
     <>
@@ -16,10 +14,7 @@ const AnecdoteList = () => {
       {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
+          <div>has {anecdote.votes}</div>
         </div>
       ))}
     </>

@@ -1,12 +1,17 @@
-import AnecdoteForm from './components/AnecdotesForm';
+import Filter from './components/Filter';
 import AnecdoteList from './components/AnecdoteList';
+import AnecdoteForm from './components/AnecdotesForm';
 
 const App = () => {
   return (
-    <div>
-      <AnecdoteList />
-      <AnecdoteForm />
-    </div>
+    <>
+      <div>
+        <h2>Anecdotes</h2>
+        <Filter />
+        <AnecdoteList />
+        <AnecdoteForm />
+      </div>
+    </>
   );
 };
 
