@@ -12,7 +12,7 @@ const AnecdoteList = () => {
   const dispatch = useDispatch();
 
   const handleVote = (id) => {
-    dispatch(vote({ id }));
+    dispatch(vote(id));
   };
   return (
     <>
