@@ -1,4 +1,5 @@
-/* eslint-disable no-case-declarations */
+import { createSlice } from '@reduxjs/toolkit';
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -17,52 +18,24 @@ const asObject = (anecdote) => {
     votes: 0,
   };
 };
-//<---ACTIONS--->
-export const toggleVoteOf = (id) => {
-  return {
-    type: 'VOTE',
-    payload: { id },
-  };
-};
-export const addAnecdote = (content) => {
-  return {
-    type: 'ADD_ANECDOTE',
-    payload: {
-      content,
-      id: getId(),
-      votes: 0,
-    },
-  };
-};
 
-const initialState = anecdotesAtStart.map(asObject);
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'VOTE':
-      const id = action.payload.id;
-      const anecdoteToVote = state.find((anecdote) => anecdote.id === id);
+const anecdotesSlice = createSlice({
+  name: 'anecdotes',
+  initialState: anecdotesAtStart.map(asObject),
+  reducers: {
+    vote: (state, action) => {
+      const { id } = action.payload;
+      const anecdoteToVote = state.find(anecdote => anecdote.id === id);
       if (anecdoteToVote) {
-        const updatedAnecdote = {
-          ...anecdoteToVote,
-          votes: anecdoteToVote.votes + 1,
-        };
-        // Devuelve un nuevo array con la anécdota actualizada y las demás inmutables
-        const newState = state.map((anecdote) =>
-          anecdote.id === id ? updatedAnecdote : anecdote
-        );
-
-        newState.sort((a, b) => b.votes - a.votes);
-        return newState;
+        anecdoteToVote.votes++;
+        state.sort((a, b) => b.votes - a.votes);
       }
-      // Si no se encuentra la anécdota, devuelve el estado sin cambios
-      return state;
-    case 'ADD_ANECDOTE':
-      console.log('ADD_ANECDOTE');
-      return [...state, action.payload];
-    default:
-      return state;
+    },
+    addAnecdote: (state, action) => {
+      state.push(action.payload);
+    }
   }
-};
+});
 
-export default reducer;
+export const { vote, addAnecdote } = anecdotesSlice.actions;
+export default anecdotesSlice.reducer;
