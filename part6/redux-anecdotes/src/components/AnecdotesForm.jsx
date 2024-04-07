@@ -8,8 +8,9 @@ const AnecdoteForm = () => {
   const handleAddAnecdote = async (event) => {
     event.preventDefault();
     const content = event.target.addNote.value;
+    const votes = '0';
     event.target.addNote.value = '';
-    const newAnecdote = await anecdoteService.createNew(content);
+    const newAnecdote = await anecdoteService.createNew(content, votes);
     dispatch(addAnecdote(newAnecdote));
   };
   return (
