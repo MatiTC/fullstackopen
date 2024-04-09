@@ -16,7 +16,8 @@ const AnecdoteList = () => {
   };
   return (
     <>
-      <Notification />
+      <Notification message={`you voted `} />
+
       <h2>Anecdotes</h2>
       {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
