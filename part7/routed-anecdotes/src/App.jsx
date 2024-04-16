@@ -6,6 +6,7 @@ import Footer from './component/Footer';
 import AnecdoteList from './component/AnecdoteList';
 import CreateNew from './component/CreateAnecdote';
 import Anecdote from './component/Anecdote';
+import Notification from './component/Notificacion';
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -24,6 +25,7 @@ const App = () => {
       id: 2,
     },
   ]);
+  const [notification, setNotification] = useState('');
   const match = useMatch('/anecdotes/:id');
   const anecdote = match
     ? anecdotes.find((anecdote) => anecdote.id === Number(match.params.id))
@@ -31,11 +33,10 @@ const App = () => {
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
 
-  const [notification, setNotification] = useState('');
-
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
+    setNotification('La nueva anecdota se creó con éxito.');
   };
 
   const vote = (id) => {
@@ -52,6 +53,7 @@ const App = () => {
   return (
     <>
       <h1>Software anecdotes</h1>
+      <Notification message={notification} />
       <Menu />
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
