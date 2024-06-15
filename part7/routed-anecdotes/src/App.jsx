@@ -8,7 +8,9 @@ import CreateNew from './component/CreateAnecdote';
 import Anecdote from './component/Anecdote';
 import Notification from './component/Notificacion';
 
+
 const App = () => {
+
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
